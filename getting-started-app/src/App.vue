@@ -8,8 +8,8 @@
 			&nbsp; Selected category ID: <strong>{{dropdownlistCategory}}</strong>
 		</p>
 
-		<grid :data-items="dataResult" :pageable="pageable" :sortable="sortable" :sort="sort" :page="page"
-			:columns="columns" @datastatechange="dataStateChange" :style="{ height: '400px' }">
+		<grid :data-items="dataResult" :pageable="pageable" :sortable="sortable" :sort="sort" :take="take" :skip="skip"
+			:columns="columns" @datastatechange="dataStateChange" @rowclick="rowClick" :style="{ height: '400px' }">
 
 			<template v-slot:discontinuedTemplate="{ props }">
 				<td colspan="1">
@@ -18,6 +18,16 @@
 			</template>
 		</grid>
 
+		<window v-if="windowVisible" :title="'Product Details'" @close="closeWindow" :height="250">
+			<dl style="{textAlign:left}">
+				<dt>Product Name</dt>
+				<dd>{{gridClickedRow.ProductName}}</dd>
+				<dt>Product ID</dt>
+				<dd>{{gridClickedRow.ProductID}}</dd>
+				<dt>Quantity per Unit</dt>
+				<dd>{{gridClickedRow.QuantityPerUnit}}</dd>
+			</dl>
+		</window>
 	</div>
 </template>
 
@@ -27,6 +37,7 @@ import products from './appdata/products.json';
 import { process } from '@progress/kendo-data-query';
 import { Grid } from '@progress/kendo-vue-grid';
 import { DropDownList } from '@progress/kendo-vue-dropdowns';
+import { Window } from '@progress/kendo-vue-dialogs';
 import '@progress/kendo-theme-default/dist/all.css';
 
 
@@ -34,7 +45,8 @@ export default {
   name: 'App',
   components: {
     'dropdownlist': DropDownList,
-    'grid': Grid
+    'grid': Grid,
+    'window': Window
   },
   data: function() {
     return {
@@ -44,10 +56,8 @@ export default {
       dropdownlistCategory: null,
       pageable: true,
       sortable: true,
-      page: {
-          skip: 0,
-          take: 10
-      },
+      skip: 0,
+      take: 10,
       sort: [
           { field: "ProductName", dir: "asc" }
       ],
@@ -58,7 +68,9 @@ export default {
           { field: 'UnitsInStock', title: 'Units in Stock' },
           { field: 'Discontinued', cell: 'discontinuedTemplate' }
       ],
-      dataResult:[]
+      dataResult:[],
+      gridClickedRow:{},
+      windowVisible: false
       }
   },
   created() {
@@ -85,27 +97,34 @@ export default {
             this.skip = 0
           }
           let event = {data:{
-              skip: this.page.skip,
-              take: this.page.take,
+              skip: this.skip,
+              take: this.take,
               sort: this.sort,
               filter: this.filter
           }};
           this.dataStateChange(event);
       },
       createAppState: function(dataState) {
-          this.page.take = dataState.take;
-          this.page.skip = dataState.skip;
+          this.take = dataState.take;
+          this.skip = dataState.skip;
           this.sort = dataState.sort;
           this.filter = dataState.filter;
       },
       dataStateChange (event) {
           this.createAppState(event.data);
           this.dataResult = process(products, {
-              skip: this.page.skip,
-              take: this.page.take,
+              skip: this.skip,
+              take: this.take,
               sort: this.sort,
               filter: this.filter
           });
+      },
+      rowClick (event){
+        this.windowVisible=true;
+        this.gridClickedRow=event.dataItem;
+      },
+      closeWindow (){
+        this.windowVisible=false;
       }
   }
 }
@@ -119,5 +138,9 @@ export default {
 		text-align: left;
 		color: #2c3e50;
 		margin-top: 60px;
+	}
+
+	dt {
+		font-weight: bold;
 	}
 </style>

@@ -14,6 +14,7 @@
     "@progress/kendo-vue-animation": "^1.2.0",
     "@progress/kendo-vue-data-tools": "^1.2.0",
     "@progress/kendo-vue-dateinputs": "^1.2.0",
+    "@progress/kendo-vue-dialogs": "^1.2.0",
     "@progress/kendo-vue-dropdowns": "^1.2.0",
     "@progress/kendo-vue-grid": "^1.2.0",
     "@progress/kendo-vue-inputs": "^1.2.0",
