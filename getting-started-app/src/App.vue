@@ -61,7 +61,7 @@ export default {
       sort: [
           { field: "ProductName", dir: "asc" }
       ],
-      filter: {},
+      filter: null,
       columns: [
           { field: 'ProductName', title: 'Product Name'},
           { field: 'UnitPrice', title: 'Price' },
@@ -108,7 +108,6 @@ export default {
           this.take = dataState.take;
           this.skip = dataState.skip;
           this.sort = dataState.sort;
-          this.filter = dataState.filter;
       },
       dataStateChange (event) {
           this.createAppState(event.data);
