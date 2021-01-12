@@ -1,7 +1,7 @@
 <template>
     <div id="root">
       <div class="content">
-          <nav-header :project-name="'testVue'" />
+          <nav-header :project-name="'Kendo UI for Vue in a Vite project'" />
           <router-view></router-view>
     </div>
     <div class="footer">
