@@ -1,5 +1,5 @@
 <template>
-  <div>
+ <div class="example-wrapper">
     <span v-if="!visibleDialog && !visibleWindow">
       <button class="k-button" @click="toggleDialog">Open Dialog</button>
       <button class="k-button" @click="toggleWindow">Open Window</button>

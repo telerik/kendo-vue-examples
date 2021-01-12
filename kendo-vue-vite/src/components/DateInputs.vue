@@ -1,5 +1,4 @@
 <template>
-<div id="vueapp" class="vue-app">
         <div class="row example-wrapper" :styles="{ minHeight: 450 }">
                 <div class="col-xs-12 col-md-6 example-col">
                     <p>DateInput</p>
@@ -27,7 +26,6 @@
                     ></calendar>
                 </div>
         </div>
-</div>
 </template>
 <script>
 import { Calendar, DateInput, DatePicker, DateTimePicker, TimePicker } from '@progress/kendo-vue-dateinputs';

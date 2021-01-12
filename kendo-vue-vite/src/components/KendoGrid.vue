@@ -1,4 +1,5 @@
 <template>
+<div class="example-wrapper">
   <localization :language="currentLocale.language">
         <intl :locale="currentLocale.locale" >
             <div>
@@ -51,6 +52,7 @@
             </div>
         </intl>
     </localization>
+</div>
 </template>
 <script>
 import { Grid, GridToolbar } from '@progress/kendo-vue-grid';
