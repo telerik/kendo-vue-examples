@@ -2,6 +2,11 @@
 
 This repository contains examples related to [Kendo UI for Vue](https://www.telerik.com/kendo-vue-ui) that are not part of the documentation or demos. They provide scenarios and answers to common how-to questions. For most of them, a component and some classes are the core of the example.
 
+## Projects
+
+- [Getting Started App](https://github.com/telerik/kendo-vue-examples/tree/main/getting-started-app)
+- [Kendo UI for Vue in a Vite project](https://github.com/telerik/kendo-vue-examples/tree/main/kendo-vue-vite)
+
 ## Contribution
 
 **Issues and Pull Requests are welcome.** 
