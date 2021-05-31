@@ -7,6 +7,9 @@ This repository contains examples related to [Kendo UI for Vue](https://www.tele
 - [Getting Started App](https://github.com/telerik/kendo-vue-examples/tree/main/getting-started-app)
 - [Kendo UI for Vue in a Vite project](https://github.com/telerik/kendo-vue-examples/tree/main/kendo-vue-vite)
 
+## Knowledge bases
+- [Vue Grid ISO Date Format](https://www.telerik.com/kendo-vue-ui/components/knowledge-base/grid-date-format/)
+
 ## Contribution
 
 **Issues and Pull Requests are welcome.** 
