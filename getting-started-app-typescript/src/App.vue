@@ -25,7 +25,7 @@
       :style="{ height: '400px' }"
     >
       <template v-slot:discontinuedTemplate="{ props }">
-        <td colspan="1">
+        <td :colspan="1">
           <input type="checkbox" :checked="props.dataItem.Discontinued" disabled="disabled" />
         </td>
       </template>
@@ -44,17 +44,18 @@
   </div>
 </template>
 
-<script>
-import categories from './appdata/categories.json';
-import products from './appdata/products.json';
-import { process } from '@progress/kendo-data-query';
-import { Grid } from '@progress/kendo-vue-grid';
-import { DropDownList } from '@progress/kendo-vue-dropdowns';
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { products } from './appdata/products';
+import { categories } from './appdata/categories';
+import { process, SortDescriptor, DataResult, State, FilterDescriptor } from '@progress/kendo-data-query';
+import { Grid, GridDataStateChangeEvent, GridRowClickEvent } from '@progress/kendo-vue-grid';
+import { DropDownList, DropDownListChangeEvent } from '@progress/kendo-vue-dropdowns';
 import { Window } from '@progress/kendo-vue-dialogs';
 import '@progress/kendo-theme-default/dist/all.css';
+import { GridColumnProps } from '@progress/kendo-vue-grid';
 
-
-export default {
+export default defineComponent({
   name: 'App',
   components: {
     'dropdownlist': DropDownList,
@@ -73,15 +74,15 @@ export default {
       take: 10,
       sort: [
         { field: "ProductName", dir: "asc" }
-      ],
-      filter: null,
+      ] as SortDescriptor[],
+      filter: {} as FilterDescriptor,
       columns: [
         { field: 'ProductName', title: 'Product Name' },
         { field: 'UnitPrice', title: 'Price' },
         { field: 'UnitsInStock', title: 'Units in Stock' },
         { field: 'Discontinued', cell: 'discontinuedTemplate' }
-      ],
-      dataResult: [],
+      ] as GridColumnProps[],
+      dataResult: { data: [] as any, total: 0 } as DataResult,
       gridClickedRow: {},
       windowVisible: false
     }
@@ -93,10 +94,10 @@ export default {
       sort: this.sort,
     };
 
-    this.dataResult = process(products, dataState);
+    this.dataResult = process(this.products, dataState);
   },
   methods: {
-    handleDropDownChange(e) {
+    handleDropDownChange(e: DropDownListChangeEvent) {
       this.dropdownlistCategory = e.target.value.CategoryID;
 
       if (e.target.value.CategoryID !== null) {
@@ -106,7 +107,7 @@ export default {
         }
         this.skip = 0
       } else {
-        this.filter = []
+        this.filter = {}
         this.skip = 0
       }
       let event = {
@@ -119,21 +120,32 @@ export default {
       };
       this.dataStateChange(event);
     },
-    createAppState: function (dataState) {
+    createAppState: function (dataState: State) {
       this.take = dataState.take;
       this.skip = dataState.skip;
       this.sort = dataState.sort;
     },
-    dataStateChange(event) {
+    dataStateChange(event: GridDataStateChangeEvent) {
       this.createAppState(event.data);
-      this.dataResult = process(products, {
-        skip: this.skip,
-        take: this.take,
-        sort: this.sort,
-        filter: this.filter
-      });
+
+      if (event.data.filter !== undefined && event.data.filter.logic) {
+        this.dataResult = process(products, {
+          skip: event.data.skip,
+          take: event.data.take,
+          sort: event.data.sort,
+          filter: event.data.filter
+        });
+      } else {
+        this.dataResult = process(products, {
+          skip: event.data.skip,
+          take: event.data.take,
+          sort: event.data.sort,
+        });
+      }
+
+
     },
-    rowClick(event) {
+    rowClick(event: GridRowClickEvent) {
       this.windowVisible = true;
       this.gridClickedRow = event.dataItem;
     },
@@ -141,7 +153,7 @@ export default {
       this.windowVisible = false;
     }
   }
-}
+});
 </script>
 
 <style>
