@@ -8,6 +8,7 @@
         :text-field="'CategoryName'"
         :default-item="defaultItems"
         @change="handleDropDownChange"
+        @rowclick="rowClick"
       ></dropdownlist>&nbsp; Selected category ID:
       <strong>{{ dropdownlistCategory }}</strong>
     </p>
@@ -49,11 +50,10 @@ import { defineComponent } from 'vue';
 import { products } from './appdata/products';
 import { categories } from './appdata/categories';
 import { process, SortDescriptor, DataResult, State, FilterDescriptor } from '@progress/kendo-data-query';
-import { Grid, GridDataStateChangeEvent, GridRowClickEvent } from '@progress/kendo-vue-grid';
+import { Grid, GridDataStateChangeEvent, GridRowClickEvent, GridColumnProps } from '@progress/kendo-vue-grid';
 import { DropDownList, DropDownListChangeEvent } from '@progress/kendo-vue-dropdowns';
 import { Window } from '@progress/kendo-vue-dialogs';
 import '@progress/kendo-theme-default/dist/all.css';
-import { GridColumnProps } from '@progress/kendo-vue-grid';
 
 export default defineComponent({
   name: 'App',
