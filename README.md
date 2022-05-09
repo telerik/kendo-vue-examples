@@ -1,3 +1,5 @@
+[Repo is archieve and examples are moved to https://github.com/telerik/kendo-vue]
+
 # Kendo UI for Vue Sample Projects
 
 This repository contains examples related to [Kendo UI for Vue](https://www.telerik.com/kendo-vue-ui) that are not part of the documentation or demos. They provide scenarios and answers to common how-to questions. For most of them, a component and some classes are the core of the example.
